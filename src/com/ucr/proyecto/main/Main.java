@@ -10,10 +10,6 @@ package com.ucr.proyecto.main;
 
 import com.ucr.proyecto.domain.Server;
 
-/**
- *
- * @author Juan Carlos Mora B44540
- */
 public class Main {
 
     /**
