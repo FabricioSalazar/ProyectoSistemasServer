@@ -55,6 +55,7 @@ public class Transaccion extends Thread implements Serializable {
     
     
     
+    
     public Semaphore getSemaforo() {
         return semaforo;
     }

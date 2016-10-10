@@ -20,8 +20,9 @@ public class Server extends Thread {
     private final int PUERTO;
     private Transaccion transaccion;
     private Funcionario funcionarios;
+    
     private ObjectInputStream entrada;
-    ObjectOutputStream salida;
+    private ObjectOutputStream salida;
 
     public Server(int puerto) {
         super("Server");
@@ -42,6 +43,7 @@ public class Server extends Thread {
                 salida.writeObject("Conectado"); //Comunica al cliente que la conexion y los flujos de datos se establecieron correctamente
                 
                 transaccion = (Transaccion) entrada.readObject();
+                
                 System.out.println(transaccion.getEmpleado());
                 System.out.println(transaccion.getFuncion());
                 System.out.println(transaccion.getCantidad());

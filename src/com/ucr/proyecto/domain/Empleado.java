@@ -12,12 +12,12 @@ public class Empleado implements Serializable {
 
     private String usuario;
     private String contrasena;
-    private int saldo;
+    private double saldo;
     private String numCuenta;
     private String nombre;
     private ArrayList movimientos;
 
-    public Empleado(String usuario, String contrasena, int saldo, String numCuenta, String nombre) {
+    public Empleado(String usuario, String contrasena, double saldo, String numCuenta, String nombre) {
         this.usuario = usuario;
         this.contrasena = contrasena;
         this.saldo = saldo;
@@ -53,11 +53,11 @@ public class Empleado implements Serializable {
         this.contrasena = contrasena;
     }
 
-    public int getSaldo() {
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(int saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
