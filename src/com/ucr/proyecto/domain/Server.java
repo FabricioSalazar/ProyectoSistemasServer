@@ -47,6 +47,8 @@ public class Server extends Thread {
                 System.out.println(transaccion.getEmpleado());
                 System.out.println(transaccion.getFuncion());
                 System.out.println(transaccion.getCantidad());
+                entrada.close();
+                salida.close();
             } while (true);
 
         } catch (IOException | ClassNotFoundException ex) {
