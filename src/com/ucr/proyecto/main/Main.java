@@ -4,11 +4,6 @@
  * and open the template in the editor.
  */
 
-/*Que ondas putos!*/
-/*Que ondas putos 2343*/
-//Hello world
-
-//kkkkk
 package com.ucr.proyecto.main;
 
 import com.ucr.proyecto.domain.Server;
