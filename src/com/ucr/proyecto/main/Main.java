@@ -6,14 +6,13 @@
 
 /*Que ondas putos!*/
 /*Que ondas putos 2343*/
+//Hello world
+
+//kkkkk
 package com.ucr.proyecto.main;
 
 import com.ucr.proyecto.domain.Server;
 
-/**
- *
- * @author Juan Carlos Mora B44540
- */
 public class Main {
 
     /**
