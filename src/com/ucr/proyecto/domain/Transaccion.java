@@ -6,29 +6,20 @@
 package com.ucr.proyecto.domain;
 
 import java.io.Serializable;
-import java.util.concurrent.Semaphore;
 
-public class Transaccion extends Thread implements Serializable {
+public class Transaccion implements Serializable {
 
     private Empleado empleado;
     private double cantidad;
     private String funcion;
-    private Semaphore semaforo;
 
     public Transaccion(Empleado empleado, double cantidad, String funcion) {
-        super("Transaccion");
         this.empleado = empleado;
         this.cantidad = cantidad;
         this.funcion = funcion;
     }
 
-    @Override
-    public void run() {
-        
-    }
-
     //*****setter & getter
-
     public Empleado getEmpleado() {
         return empleado;
     }
@@ -51,17 +42,6 @@ public class Transaccion extends Thread implements Serializable {
 
     public void setFuncion(String funcion) {
         this.funcion = funcion;
-    }
-    
-    
-    
-    
-    public Semaphore getSemaforo() {
-        return semaforo;
-    }
-
-    public void setSemaforo(Semaphore semaforo) {
-        this.semaforo = semaforo;
     }
 
 }
