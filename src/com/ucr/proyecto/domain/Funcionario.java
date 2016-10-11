@@ -5,10 +5,26 @@
  */
 package com.ucr.proyecto.domain;
 
+import com.ucr.proyecto.data.ConexionSQL;
 import java.util.concurrent.Semaphore;
 
-class Funcionario {
+class Funcionario extends Thread {
 
-    private Semaphore semaforo;
+    private final Semaphore SEMAFORO;
+    private final ConexionSQL CONEXION;
+
+    public Funcionario() {
+        this.SEMAFORO = new Semaphore(1);
+        this.CONEXION = new ConexionSQL();
+    }
+
+    @Override
+    public void run() {
+        
+    }
+
+    public void ejecutarTransaccion(Transaccion transaccion) {
+        
+    }
 
 }
