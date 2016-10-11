@@ -15,23 +15,26 @@ public class Empleado implements Serializable {
     private double saldo;
     private String numCuenta;
     private String nombre;
+    private int codEmpleado;
     private ArrayList movimientos;
 
-    public Empleado(String usuario, String contrasena, double saldo, String numCuenta, String nombre) {
+    public Empleado(String usuario, String contrasena, double saldo, String numCuenta, String nombre, int codEmpleado) {
         this.usuario = usuario;
         this.contrasena = contrasena;
         this.saldo = saldo;
         this.numCuenta = numCuenta;
         this.nombre = nombre;
+        this.codEmpleado=codEmpleado;
     }
 
     // @param Parametro extra: Movimientos de cuenta
-    public Empleado(String usuario, String contrasena, int saldo, String numCuenta, String nombre, ArrayList movimientos) {
+    public Empleado(String usuario, String contrasena, int saldo, String numCuenta, String nombre,int codEmpleado, ArrayList movimientos) {
         this.usuario = usuario;
         this.contrasena = contrasena;
         this.saldo = saldo;
         this.numCuenta = numCuenta;
         this.nombre = nombre;
+        this.codEmpleado=codEmpleado;
         this.movimientos = movimientos;
     }
     
@@ -75,6 +78,14 @@ public class Empleado implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    
+    public int getCodEmpleado(){
+        return codEmpleado;
+    }
+    
+    public void setCodEmpleado(int codEmpleado){
+        this.codEmpleado=codEmpleado;
     }
 
     public ArrayList getMovimientos() {
