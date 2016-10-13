@@ -49,6 +49,13 @@ public final class ConexionSQL {
         return null;
     }
 
+    public Empleado verificarEmpleado(Empleado datos) {
+
+        String funcion = "SELECT * FROM EMPLEADO WHERE";
+
+        return null;
+    }
+
 //    public void insertarEncuesta(Encuesta encuesta) throws SQLException {
 //
 //        statement = conexion.createStatement();
