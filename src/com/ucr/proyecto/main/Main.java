@@ -6,6 +6,8 @@
 
 package com.ucr.proyecto.main;
 
+import com.ucr.proyecto.data.ConexionSQL;
+import com.ucr.proyecto.domain.Empleado;
 import com.ucr.proyecto.domain.Server;
 
 public class Main {
@@ -15,6 +17,5 @@ public class Main {
      */
     public static void main(String[] args) {
         new Server(5700).start();
-
     }
 }
