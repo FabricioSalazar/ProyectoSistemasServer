@@ -20,7 +20,12 @@ public class Transaccion implements Serializable {
         this.funcion = funcion;
         this.empleadoDestino=empleadoDestino;
     }
-
+    
+        public Transaccion(Empleado empleado, double cantidad, String funcion) {
+        this.empleado = empleado;
+        this.cantidad = cantidad;
+        this.funcion = funcion;
+    }
     //*****setter & getter
     public Empleado getEmpleado() {
         return empleado;
