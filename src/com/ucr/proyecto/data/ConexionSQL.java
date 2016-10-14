@@ -4,9 +4,9 @@ import com.ucr.proyecto.domain.Empleado;
 import com.ucr.proyecto.util.Constantes;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +37,7 @@ public final class ConexionSQL {
 
     }
 
+    
     public void acreditar(int monto, Empleado empleado) {
 
     }
@@ -55,7 +56,7 @@ public final class ConexionSQL {
 
         return null;
     }
-
+    
 //    public void insertarEncuesta(Encuesta encuesta) throws SQLException {
 //
 //        statement = conexion.createStatement();
