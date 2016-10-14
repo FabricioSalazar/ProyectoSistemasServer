@@ -12,11 +12,13 @@ public class Transaccion implements Serializable {
     private Empleado empleado;
     private double cantidad;
     private String funcion;
+    private Empleado empleadoDestino;
 
-    public Transaccion(Empleado empleado, double cantidad, String funcion) {
+    public Transaccion(Empleado empleado, double cantidad, String funcion,Empleado empleadoDestino) {
         this.empleado = empleado;
         this.cantidad = cantidad;
         this.funcion = funcion;
+        this.empleadoDestino=empleadoDestino;
     }
 
     //*****setter & getter
@@ -44,4 +46,12 @@ public class Transaccion implements Serializable {
         this.funcion = funcion;
     }
 
+    public Empleado getEmpleadoDestino() {
+        return empleadoDestino;
+    }
+
+    public void setEmpleadoDestino(Empleado empleadoDestino) {
+        this.empleadoDestino = empleadoDestino;
+    }
+    
 }

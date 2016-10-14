@@ -26,7 +26,8 @@ public class Empleado implements Serializable {
         this.nombre = nombre;
         this.codEmpleado=codEmpleado;
     }
-        public Empleado(String usuario, String contrasena) {
+    
+    public Empleado(String usuario, String contrasena) {
         this.usuario = usuario;
         this.contrasena = contrasena;
     }
