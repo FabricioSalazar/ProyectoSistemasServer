@@ -23,7 +23,7 @@ public class Transaccion implements Serializable {
         this.detalle=detalle;
     }
     
-        public Transaccion(Empleado empleado, double cantidad, String funcion,String detalle) {
+    public Transaccion(Empleado empleado, double cantidad, String funcion,String detalle) {
         this.empleado = empleado;
         this.cantidad = cantidad;
         this.funcion = funcion;

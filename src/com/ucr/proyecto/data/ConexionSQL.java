@@ -39,52 +39,57 @@ public final class ConexionSQL {
     }
 
     //Acreditar la cuenta del empleado que pasa como parametro
-    public void acreditar(Transaccion acreditar) {
+    public String acreditar(Transaccion acreditar) {
 //        Empleado empleadoOrigen=obtenerEmpleado(0);
 //        Transaccion acreditar=new Transaccion(empleadoOrigen, monto, "acreditar", empleado,detalle);
-//        
-        String funcion="INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
-        funcion+=acreditar.getEmpleado().getCodEmpleado()+",'"+acreditar.getEmpleado().getNumCuenta()+"','"+acreditar.getFuncion()+"',"+acreditar.getCantidad()+","+acreditar.getEmpleadoDestino().getCodEmpleado()+",'"+acreditar.getEmpleadoDestino().getNumCuenta()+"','"+acreditar.getDetalle()+"')";
-        
+        String respuesta;
+        String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
+        funcion += acreditar.getEmpleado().getCodEmpleado() + ",'" + acreditar.getEmpleado().getNumCuenta() + "','" + acreditar.getFuncion() + "'," + acreditar.getCantidad() + "," + acreditar.getEmpleadoDestino().getCodEmpleado() + ",'" + acreditar.getEmpleadoDestino().getNumCuenta() + "','" + acreditar.getDetalle() + "')";
+
         try {
-            statement=conexion.createStatement();
-            
+            statement = conexion.createStatement();
+
             statement.executeUpdate(funcion);
+            respuesta = "Transaccion realizada con exito";
         } catch (SQLException ex) {
-            Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
+            respuesta = "Error de conexion";
         }
+        return respuesta;
     }
 
     //Debita la cuenta del empleado que pasa como parametro
-    public void debitar(Transaccion debitar) {
+    public String debitar(Transaccion debitar) {
 //        Empleado empleadoDestino=obtenerEmpleado(0);
 //        Transaccion debitar=new Transaccion(empleado, monto, "debitar", empleadoDestino,detalle);
-        
-        if(debitar.getEmpleado().getSaldo()>= debitar.getCantidad()){
-            String funcion="INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
-        
-            funcion+=debitar.getEmpleado().getCodEmpleado()+",'"+debitar.getEmpleado().getNumCuenta()+"','"+debitar.getFuncion()+"',"+debitar.getCantidad()+","+debitar.getEmpleadoDestino().getCodEmpleado()+",'"+debitar.getEmpleadoDestino().getNumCuenta()+"','"+debitar.getDetalle()+"')";
-        
+        String respuesta;
+
+        if (debitar.getEmpleado().getSaldo() >= debitar.getCantidad()) {
+            String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
+
+            funcion += debitar.getEmpleado().getCodEmpleado() + ",'" + debitar.getEmpleado().getNumCuenta() + "','" + debitar.getFuncion() + "'," + debitar.getCantidad() + "," + debitar.getEmpleadoDestino().getCodEmpleado() + ",'" + debitar.getEmpleadoDestino().getNumCuenta() + "','" + debitar.getDetalle() + "')";
+
             try {
-                statement=conexion.createStatement();
-            
+                statement = conexion.createStatement();
+
                 statement.executeUpdate(funcion);
+                respuesta = "Transaccion realizada con exito";
             } catch (SQLException ex) {
-                Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
+                respuesta = "Error de conexion";
             }
-        }else{
-            System.out.println("El saldo en la cuenta es menor que la cantidad a retirar");
+        } else {
+            respuesta = "El saldo en la cuenta es menor que la cantidad a retirar";
         }
+        return respuesta;
     }
-    
+
     //Genera el ahorro automatico
     public void ahorroAutomatico(int monto) {
         Empleado empleado = obtenerEmpleado(0);
-        Transaccion ahorro = new Transaccion(empleado, monto, "ahorroautomatico", empleado,"Ahorro Automatico");
+        Transaccion ahorro = new Transaccion(empleado, monto, "ahorroautomatico", empleado, "Ahorro Automatico");
 
         String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
 
-        funcion += ahorro.getEmpleado().getCodEmpleado() + ",'" + ahorro.getEmpleado().getNumCuenta() + "','" + ahorro.getFuncion() + "'," + ahorro.getCantidad() + "," + ahorro.getEmpleadoDestino().getCodEmpleado() + ",'" + ahorro.getEmpleadoDestino().getNumCuenta() + "','"+ahorro.getDetalle()+"')";
+        funcion += ahorro.getEmpleado().getCodEmpleado() + ",'" + ahorro.getEmpleado().getNumCuenta() + "','" + ahorro.getFuncion() + "'," + ahorro.getCantidad() + "," + ahorro.getEmpleadoDestino().getCodEmpleado() + ",'" + ahorro.getEmpleadoDestino().getNumCuenta() + "','" + ahorro.getDetalle() + "')";
 
         try {
             statement = conexion.createStatement();
@@ -94,90 +99,91 @@ public final class ConexionSQL {
             Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     //Debita el dinero de la cuenta del empleado de origen para acreditarlo al empleado de destino
-    public void acreditarOtraCuenta(Transaccion acreditarOtraCuenta){
+    public String acreditarOtraCuenta(Transaccion acreditarOtraCuenta) {
         //Transaccion acreditarOtraCuenta=new Transaccion(empleadoOrigen, monto, "acreditarotracuenta", empleadoDestino,detalle);
-        
-        if(acreditarOtraCuenta.getEmpleado().getSaldo()>=acreditarOtraCuenta.getCantidad()){
+        String respuesta;
+        if (acreditarOtraCuenta.getEmpleado().getSaldo() >= acreditarOtraCuenta.getCantidad()) {
             String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
-            funcion += acreditarOtraCuenta.getEmpleado().getCodEmpleado() + ",'" + acreditarOtraCuenta.getEmpleado().getNumCuenta() + "','" + acreditarOtraCuenta.getFuncion() + "'," + acreditarOtraCuenta.getCantidad() + "," + acreditarOtraCuenta.getEmpleadoDestino().getCodEmpleado() + ",'" + acreditarOtraCuenta.getEmpleadoDestino().getNumCuenta() + "','"+acreditarOtraCuenta.getDetalle()+"')";
+            funcion += acreditarOtraCuenta.getEmpleado().getCodEmpleado() + ",'" + acreditarOtraCuenta.getEmpleado().getNumCuenta() + "','" + acreditarOtraCuenta.getFuncion() + "'," + acreditarOtraCuenta.getCantidad() + "," + acreditarOtraCuenta.getEmpleadoDestino().getCodEmpleado() + ",'" + acreditarOtraCuenta.getEmpleadoDestino().getNumCuenta() + "','" + acreditarOtraCuenta.getDetalle() + "')";
 
             try {
                 statement = conexion.createStatement();
 
                 statement.executeUpdate(funcion);
+                respuesta = "Transaccion realizada con exito";
             } catch (SQLException ex) {
-                Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
+                respuesta = "Error de conexion";
             }
-        }else{
-            System.out.println("El saldo en la cuenta es menor que la cantidad a traspasar");
+        } else {
+            respuesta = "El saldo en la cuenta es menor que la cantidad a traspasar";
         }
+        return respuesta;
     }
 
     public Empleado obtener(Empleado estadoAntiguo) {
-        Empleado empleado=obtenerEmpleado(estadoAntiguo.getCodEmpleado());
-        
-        if(empleado != null){
+        Empleado empleado = obtenerEmpleado(estadoAntiguo.getCodEmpleado());
+
+        if (empleado != null) {
             return empleado;
-        }else{
+        } else {
             return null;
         }
     }
 
     //Obtiene la informacion de los empleados segun el codigo
     public Empleado obtenerEmpleado(int codigo) {
-        String funcion = "SELECT * FROM EMPLEADOS WHERE codEmpleado="+codigo;
-        String funcion2= "SELECT numCuenta,saldo FROM CUENTA WHERE codEmpleado="+codigo;
-        
-        Empleado emp=null;
-        String usuario="",contraseña="",nombre="",numCuenta="";
-        float saldo=0;
-        int codEmpleado=0;
-        
+        String funcion = "SELECT * FROM EMPLEADOS WHERE codEmpleado=" + codigo;
+        String funcion2 = "SELECT numCuenta,saldo FROM CUENTA WHERE codEmpleado=" + codigo;
+
+        Empleado emp = null;
+        String usuario = "", contraseña = "", nombre = "", numCuenta = "";
+        float saldo = 0;
+        int codEmpleado = 0;
+
         try {
-            statement=conexion.createStatement();
-            
-            ResultSet rs=statement.executeQuery(funcion);
-            
-            Statement statement2=null;
-            statement2=conexion.createStatement();
-            ResultSet rs1=statement2.executeQuery(funcion2);
-            
-            while(rs.next()){
-                codEmpleado=rs.getInt(1);
-                nombre=rs.getString(2);
-                usuario=rs.getString(3);
-                contraseña=rs.getString(4);
+            statement = conexion.createStatement();
+
+            ResultSet rs = statement.executeQuery(funcion);
+
+            Statement statement2 = null;
+            statement2 = conexion.createStatement();
+            ResultSet rs1 = statement2.executeQuery(funcion2);
+
+            while (rs.next()) {
+                codEmpleado = rs.getInt(1);
+                nombre = rs.getString(2);
+                usuario = rs.getString(3);
+                contraseña = rs.getString(4);
             }
-            
+
             while (rs1.next()) {
-                numCuenta=rs1.getString(1);
-                saldo=rs1.getFloat(2);
+                numCuenta = rs1.getString(1);
+                saldo = rs1.getFloat(2);
             }
-             
-            emp=new Empleado(usuario, contraseña, saldo, numCuenta, nombre, codEmpleado);
-            
+
+            emp = new Empleado(usuario, contraseña, saldo, numCuenta, nombre, codEmpleado);
+
         } catch (SQLException ex) {
             Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         return emp;
     }
-    
+
     //Verifica si el usuario y contrasena del empleado que pasa como parametro coinciden
     public Empleado verificarEmpleado(Empleado datos) {
-        
-        Empleado empleado=obtenerEmpleado(datos.getCodEmpleado());
-        
-        if(empleado.getUsuario().equalsIgnoreCase(datos.getUsuario()) && empleado.getContrasena().equalsIgnoreCase(datos.getContrasena())){
+
+        Empleado empleado = obtenerEmpleado(datos.getCodEmpleado());
+
+        if (empleado.getUsuario().equalsIgnoreCase(datos.getUsuario()) && empleado.getContrasena().equalsIgnoreCase(datos.getContrasena())) {
             return empleado;
-        }else{
+        } else {
             return null;
         }
     }
-    
+
 //    public void insertarEncuesta(Encuesta encuesta) throws SQLException {
 //
 //        statement = conexion.createStatement();

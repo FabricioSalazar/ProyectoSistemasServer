@@ -5,6 +5,7 @@
  */
 package com.ucr.proyecto.domain;
 
+import com.ucr.proyecto.data.ConexionSQL;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,8 +21,9 @@ public class Server extends Thread {
     private Socket socket;
     private final int PUERTO;
     private Transaccion transaccion;
-//    private Funcionario funcionarios;
     private Semaphore funcionarios;
+    
+    private ConexionSQL conexion;
     
     private ObjectInputStream entrada;
     private ObjectOutputStream salida;
@@ -30,6 +32,7 @@ public class Server extends Thread {
         super("Server");
         this.PUERTO = puerto;
         this.funcionarios = new Semaphore(3);
+        conexion = new ConexionSQL();
     }
 
     @Override
@@ -45,6 +48,7 @@ public class Server extends Thread {
                 salida.writeObject("Conectado"); //Comunica al cliente que la conexion y los flujos de datos se establecieron correctamente
                 
                 transaccion = (Transaccion) entrada.readObject();
+                atiendeCliente(transaccion);
                 
                 System.out.println(transaccion.getEmpleado());
                 System.out.println(transaccion.getFuncion());
@@ -55,21 +59,28 @@ public class Server extends Thread {
                 salida.close();
             } while (true);
 
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException | InterruptedException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void atiendeCliente(Transaccion t) throws InterruptedException {
+    public String atiendeCliente(Transaccion t) throws InterruptedException {
+        /*AHORRO AUTOMATICO case "ahorroautomatico"*/
         funcionarios.acquire();
         String funcion = t.getFuncion();
+        String resultado = "";
         switch (funcion) {
-            case "debito":
+            case "debitar"://El cliente saca de su cuenta
+                resultado = conexion.debitar(t);
+            case "acreditar"://El cliente mete en su cuenta, SUPUESTO SEMANTICO: EN EFECTIVO O CHEQUES
+                resultado = conexion.acreditar(t);
                 break;
-            case "credito":
+            case "acreditarotracuenta":
+                resultado = conexion.acreditarOtraCuenta(t);
                 break;
             default:
         }
         funcionarios.release();
+        return resultado;
     }
 }
