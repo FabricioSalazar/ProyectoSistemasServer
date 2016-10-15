@@ -49,6 +49,8 @@ public class Server extends Thread {
                 System.out.println(transaccion.getEmpleado());
                 System.out.println(transaccion.getFuncion());
                 System.out.println(transaccion.getCantidad());
+                System.out.println(transaccion.getEmpleadoDestino());
+                
                 entrada.close();
                 salida.close();
             } while (true);
