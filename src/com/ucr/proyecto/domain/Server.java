@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +20,8 @@ public class Server extends Thread {
     private Socket socket;
     private final int PUERTO;
     private Transaccion transaccion;
-    private Funcionario funcionarios;
+//    private Funcionario funcionarios;
+    private Semaphore funcionarios;
     
     private ObjectInputStream entrada;
     private ObjectOutputStream salida;
@@ -27,7 +29,7 @@ public class Server extends Thread {
     public Server(int puerto) {
         super("Server");
         this.PUERTO = puerto;
-
+        this.funcionarios = new Semaphore(3);
     }
 
     @Override
@@ -55,5 +57,17 @@ public class Server extends Thread {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public void atiendeCliente(Transaccion t) throws InterruptedException {
+        funcionarios.acquire();
+        String funcion = t.getFuncion();
+        switch (funcion) {
+            case "debito":
+                break;
+            case "credito":
+                break;
+            default:
+        }
+        funcionarios.release();
+    }
 }
