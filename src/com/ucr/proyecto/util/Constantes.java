@@ -5,11 +5,13 @@
  */
 package com.ucr.proyecto.util;
 
+import com.ucr.proyecto.domain.Empleado;
+
 public class Constantes {
 
     public static String DB_USER = "sqlserver";
     public static String USER_PASS = "saucr.12";
     public static String DB_URL = "jdbc:sqlserver://163.178.107.130;databaseName=Proyecto_II_Operativos_B32144_B56535_B44540_B56246";
     public static String SQL_SERVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-
+    public static Empleado empleadoNulo=new Empleado("No suministrado", "null", 0, "00000000", "No suministrado", 0);
 }
