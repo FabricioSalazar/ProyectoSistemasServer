@@ -39,10 +39,10 @@ public final class ConexionSQL {
     }
 
     //Acreditar la cuenta del empleado que pasa como parametro
-    public void acreditar(int monto, Empleado empleado,String detalle) {
-        Empleado empleadoOrigen=obtenerEmpleado(0);
-        Transaccion acreditar=new Transaccion(empleadoOrigen, monto, "acreditar", empleado,detalle);
-        
+    public void acreditar(Transaccion acreditar) {
+//        Empleado empleadoOrigen=obtenerEmpleado(0);
+//        Transaccion acreditar=new Transaccion(empleadoOrigen, monto, "acreditar", empleado,detalle);
+//        
         String funcion="INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
         funcion+=acreditar.getEmpleado().getCodEmpleado()+",'"+acreditar.getEmpleado().getNumCuenta()+"','"+acreditar.getFuncion()+"',"+acreditar.getCantidad()+","+acreditar.getEmpleadoDestino().getCodEmpleado()+",'"+acreditar.getEmpleadoDestino().getNumCuenta()+"','"+acreditar.getDetalle()+"')";
         
@@ -56,9 +56,9 @@ public final class ConexionSQL {
     }
 
     //Debita la cuenta del empleado que pasa como parametro
-    public void debitar(int monto, Empleado empleado,String detalle) {
-        Empleado empleadoDestino=obtenerEmpleado(0);
-        Transaccion debitar=new Transaccion(empleado, monto, "debitar", empleadoDestino,detalle);
+    public void debitar(Transaccion debitar) {
+//        Empleado empleadoDestino=obtenerEmpleado(0);
+//        Transaccion debitar=new Transaccion(empleado, monto, "debitar", empleadoDestino,detalle);
         
         if(debitar.getEmpleado().getSaldo()>= debitar.getCantidad()){
             String funcion="INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
@@ -96,8 +96,8 @@ public final class ConexionSQL {
     }
     
     //Debita el dinero de la cuenta del empleado de origen para acreditarlo al empleado de destino
-    public void acreditarOtraCuenta(int monto,Empleado empleadoOrigen,Empleado empleadoDestino,String detalle){
-        Transaccion acreditarOtraCuenta=new Transaccion(empleadoOrigen, monto, "acreditarotracuenta", empleadoDestino,detalle);
+    public void acreditarOtraCuenta(Transaccion acreditarOtraCuenta){
+        //Transaccion acreditarOtraCuenta=new Transaccion(empleadoOrigen, monto, "acreditarotracuenta", empleadoDestino,detalle);
         
         if(acreditarOtraCuenta.getEmpleado().getSaldo()>=acreditarOtraCuenta.getCantidad()){
             String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
