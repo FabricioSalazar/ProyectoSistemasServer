@@ -41,8 +41,7 @@ public final class ConexionSQL {
 
     //Acreditar la cuenta del empleado que pasa como parametro
     public String acreditar(Transaccion acreditar) {
-//        Empleado empleadoOrigen=obtenerEmpleado(0);
-//        Transaccion acreditar=new Transaccion(empleadoOrigen, monto, "acreditar", empleado,detalle);
+
         String respuesta;
         String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
         funcion += acreditar.getEmpleado().getCodEmpleado() + ",'" + acreditar.getEmpleado().getNumCuenta() + "','" + acreditar.getFuncion() + "'," + acreditar.getCantidad() + "," + acreditar.getEmpleadoDestino().getCodEmpleado() + ",'" + acreditar.getEmpleadoDestino().getNumCuenta() + "','" + acreditar.getDetalle() + "')";
@@ -60,8 +59,7 @@ public final class ConexionSQL {
 
     //Debita la cuenta del empleado que pasa como parametro
     public String debitar(Transaccion debitar) {
-//        Empleado empleadoDestino=obtenerEmpleado(0);
-//        Transaccion debitar=new Transaccion(empleado, monto, "debitar", empleadoDestino,detalle);
+
         String respuesta;
 
         if (debitar.getEmpleado().getSaldo() >= debitar.getCantidad()) {
@@ -103,7 +101,7 @@ public final class ConexionSQL {
 
     //Debita el dinero de la cuenta del empleado de origen para acreditarlo al empleado de destino
     public String acreditarOtraCuenta(Transaccion acreditarOtraCuenta) {
-        //Transaccion acreditarOtraCuenta=new Transaccion(empleadoOrigen, monto, "acreditarotracuenta", empleadoDestino,detalle);
+
         String respuesta;
         if (acreditarOtraCuenta.getEmpleado().getSaldo() >= acreditarOtraCuenta.getCantidad()) {
             String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";

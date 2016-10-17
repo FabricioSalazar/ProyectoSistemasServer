@@ -63,13 +63,17 @@ public class Server extends Thread {
                         salida.writeObject(conexion.getEmpleadoActual());
                         salida.writeObject(getEmpleados());
                         break;
-                    case Constantes.ENVIAR_TRANSACCION_ACREDITAR:
-                        transaccion = (Transaccion) entrada.readObject(); // 2] recibe los datos del usuario                      
-                        
-                        String a=atiendeCliente(transaccion);
-                        salida.writeObject(a);
-//                        salida.writeObject(conexion.getEmpleadoActual());
-//                        salida.writeObject(getEmpleados());
+                    case Constantes.ENVIAR_TRANSACCION_ACREDITAR://recibe la transaccion y envia el string si la transaccion se pudo realizar
+                        transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                      
+                        salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
+                        break;
+                     case Constantes.ENVIAR_TRANSACCION_DEBITAR://recibe la transaccion y envia el string si la transaccion se pudo realizar
+                        transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                        
+                        salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
+                        break;
+                     case Constantes.ENVIAR_TRANSACCION_ACREDITAR_OTRA_CUENTA://recibe la transaccion y envia el string si la transaccion se pudo realizar
+                        transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                     
+                        salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
                         break;
                 }
                 entrada.close();
