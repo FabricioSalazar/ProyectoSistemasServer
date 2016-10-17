@@ -352,7 +352,26 @@ public final class ConexionSQL {
             while (rs.next()) {
                 codEmpleado = rs.getString("codEmpleado");
             }
-            String funcion = "SELECT * FROM Transaccion WHERE codEmpleado='" + codEmpleado + "'";
+            String funcion = "SELECT * FROM Transaccion WHERE codEmpleadoDestino='" + codEmpleado + "'";
+            statement = conexion.createStatement();
+            rs = statement.executeQuery(funcion);
+            
+            while (rs.next()){
+                funcionTransaccion = rs.getString("funcion");
+                codEmpleadoOrigen = Integer.parseInt(rs.getString("codEmpleado"));
+                numCuentaOrigen = rs.getString("numCuentaOrigen");
+                cantidad = Float.parseFloat(rs.getString("cantidad"));
+                fecha = rs.getString("fecha");
+                codEmpleadoDestino = Integer.parseInt(rs.getString("codEmpleadoDestino"));
+                numCuentaDestino = rs.getString("numCuentaDestino");
+                detalle = rs.getString("detalle");
+                empleadoOrigen = new Empleado(null, null, 0, numCuentaOrigen, null, codEmpleadoOrigen);
+                empleadoDestino = new Empleado(null, null, 0, numCuentaDestino, null, codEmpleadoDestino);
+                transacciones = new Transaccion(empleadoOrigen, cantidad, funcionTransaccion, empleadoDestino, detalle, fecha);
+                listaTransaccionesPorEmpleado.add(transacciones);
+            }
+            
+            funcion = "SELECT * FROM Transaccion WHERE codEmpleado='" + codEmpleado + "'";
             statement = conexion.createStatement();
             rs = statement.executeQuery(funcion);
             
