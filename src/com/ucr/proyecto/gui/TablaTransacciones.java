@@ -3,8 +3,6 @@ package com.ucr.proyecto.gui;
 import com.ucr.proyecto.domain.Transaccion;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -67,12 +65,6 @@ public class TablaTransacciones extends JPanel {
         tabla.setCellSelectionEnabled(true);
 
         JScrollPane scrollPane = new JScrollPane(tabla);
-        //scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            //@Override
-            //public void adjustmentValueChanged(AdjustmentEvent e) {
-            //    e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-          //  }
-        //});
         panel.add(scrollPane).setBounds(20, 40, 700, 500);
         this.add(panel).setBounds(0, 0, 750, 550);
         llenarTabla();
