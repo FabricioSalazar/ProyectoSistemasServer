@@ -46,7 +46,6 @@ public class TablaTransacciones extends JPanel {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
                 Component comp = super.prepareRenderer(renderer, row, col);
                 Object value = getModel().getValueAt(row, 1);
-                System.out.println(value);
                 if(value.equals("debitar")) {
                     comp.setBackground(Color.red);
                 } else if (value.equals("acreditar")){

@@ -329,7 +329,6 @@ public final class ConexionSQL {
                 empleadoDestino = new Empleado(null, null, 0, numCuentaDestino, null, codEmpleadoDestino);
                 transacciones = new Transaccion(empleadoOrigen, cantidad, funcionTransaccion, empleadoDestino, detalle, fecha);
                 listaTransacciones.add(transacciones);
-                System.out.println(transacciones.toString());
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
