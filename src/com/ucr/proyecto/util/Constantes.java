@@ -16,8 +16,10 @@ public class Constantes {
     public static Empleado empleadoNulo = new Empleado("No suministrado", "null", 0, "00000000", "No suministrado", 0);
     
     public static final String ENVIAR_TRANSACCION = "ENVIAR";
+    public static final String ENVIAR_TRANSACCION_ACREDITAR= "Enviar_Acreditar";
     public static final String ACTUALIZACION_DE_ESTADOO = "NUEVO_ESTADO";
     public static final String VERIFICACION_DE_DATOS = "VERIFICAR_DATOS";
+    public static final String VERIFICACION_DE_DATOS_CONSOLA = "VERIFICAR_DATOS_CONSOLA";
     public static final String WAIT_CLIENT = "EN_ESPERA";
 
 }

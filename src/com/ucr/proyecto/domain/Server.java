@@ -57,12 +57,28 @@ public class Server extends Thread {
                         salida.writeObject(conexion.getEmpleadoActual());
                         salida.writeObject(getEmpleados());
                         break;
+                    case Constantes.VERIFICACION_DE_DATOS_CONSOLA:
+                        transaccion = (Transaccion) entrada.readObject(); // 2] recibe los datos del usuario                      
+                        salida.writeObject(conexion.verificarEmpleado(transaccion.getEmpleado()));
+                        salida.writeObject(conexion.getEmpleadoActual());
+                        salida.writeObject(getEmpleados());
+                        break;
+                    case Constantes.ENVIAR_TRANSACCION_ACREDITAR:
+                        transaccion = (Transaccion) entrada.readObject(); // 2] recibe los datos del usuario                      
+                        
+                        String a=atiendeCliente(transaccion);
+                        salida.writeObject(a);
+//                        salida.writeObject(conexion.getEmpleadoActual());
+//                        salida.writeObject(getEmpleados());
+                        break;
                 }
                 entrada.close();
                 salida.close();
             } while (true);
 
         } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
