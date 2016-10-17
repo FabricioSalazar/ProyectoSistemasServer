@@ -370,7 +370,7 @@ public final class ConexionSQL {
                 transacciones = new Transaccion(empleadoOrigen, cantidad, funcionTransaccion, empleadoDestino, detalle, fecha);
                 listaTransaccionesPorEmpleado.add(transacciones);
             }
-            
+                        
             funcion = "SELECT * FROM Transaccion WHERE codEmpleado='" + codEmpleado + "'";
             statement = conexion.createStatement();
             rs = statement.executeQuery(funcion);
