@@ -15,20 +15,26 @@ public class Transaccion implements Serializable {
     private Empleado empleadoDestino;
     private String detalle;
 
-    public Transaccion(Empleado empleado, double cantidad, String funcion,Empleado empleadoDestino, String detalle) {
+    public Transaccion(Empleado empleado, double cantidad, String funcion, Empleado empleadoDestino, String detalle) {
         this.empleado = empleado;
         this.cantidad = cantidad;
         this.funcion = funcion;
-        this.empleadoDestino=empleadoDestino;
-        this.detalle=detalle;
+        this.empleadoDestino = empleadoDestino;
+        this.detalle = detalle;
     }
-    
-    public Transaccion(Empleado empleado, double cantidad, String funcion,String detalle) {
+
+    public Transaccion(Empleado empleado, double cantidad, String funcion, String detalle) {
         this.empleado = empleado;
         this.cantidad = cantidad;
         this.funcion = funcion;
-        this.detalle=detalle;
+        this.detalle = detalle;
     }
+
+    public Transaccion(Empleado empleado, String funcion) {
+        this.empleado = empleado;
+        this.funcion = funcion;
+    }
+
     //*****setter & getter
     public Empleado getEmpleado() {
         return empleado;
@@ -69,6 +75,5 @@ public class Transaccion implements Serializable {
     public void setDetalle(String detalle) {
         this.detalle = detalle;
     }
-    
-    
+
 }
