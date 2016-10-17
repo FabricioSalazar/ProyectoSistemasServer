@@ -339,15 +339,23 @@ public final class ConexionSQL {
     public List<Transaccion> getTransaccionesPorEmpleado(String usuario) {
         List<Transaccion> listaTransaccionesPorEmpleado = new ArrayList<>();
         Empleado empleadoOrigen, empleadoDestino;
-        String funcion = "SELECT * FROM Transaccion WHERE codEmpleado='" + usuario + "'";
-        Transaccion transacciones;
         int codEmpleadoOrigen = 0, codEmpleadoDestino = 0;
         String fecha = "", detalle = "", funcionTransaccion = "", numCuentaOrigen = "", numCuentaDestino = "";        
         float cantidad = 0;
+        String codEmpleado = "";
+        Transaccion transacciones;
+        String obtenerCodigoEmpleado = "SELECT codEmpleado FROM Empleados WHERE usuario='" + usuario + "'";
         
         try {
             statement = conexion.createStatement();
-            ResultSet rs = statement.executeQuery(funcion);
+            ResultSet rs = statement.executeQuery(obtenerCodigoEmpleado);
+            while (rs.next()) {
+                codEmpleado = rs.getString("codEmpleado");
+            }
+            String funcion = "SELECT * FROM Transaccion WHERE codEmpleado='" + codEmpleado + "'";
+            statement = conexion.createStatement();
+            rs = statement.executeQuery(funcion);
+            
             while (rs.next()){
                 funcionTransaccion = rs.getString("funcion");
                 codEmpleadoOrigen = Integer.parseInt(rs.getString("codEmpleado"));

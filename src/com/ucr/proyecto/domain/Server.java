@@ -55,11 +55,13 @@ public class Server extends Thread {
                         break;
                     case Constantes.VERIFICACION_DE_DATOS:
                         transaccion = (Transaccion) entrada.readObject(); // 2] recibe los datos del usuario                      
+                        
+                        String usuario = entrada.readObject() + "";
+                        salida.writeObject(conexion.getTransaccionesPorEmpleado(usuario));                        
+                        
                         salida.writeObject(conexion.verificarEmpleado(transaccion.getEmpleado()));
                         salida.writeObject(conexion.getEmpleadoActual());
                         salida.writeObject(getEmpleados());
-                        String usuario = entrada.readObject() + "";
-                        salida.writeObject(conexion.getTransaccionesPorEmpleado(usuario));
                         break;
                     case Constantes.VERIFICACION_DE_DATOS_CONSOLA:
                         transaccion = (Transaccion) entrada.readObject(); // 2] recibe los datos del usuario                      
