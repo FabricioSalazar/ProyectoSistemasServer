@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -301,5 +303,37 @@ public final class ConexionSQL {
     public Empleado getEmpleadoActual() {
         return empActual;
     }
-
+    
+    public List<Transaccion> getTransacciones() {
+        List<Transaccion> listaTransacciones = new ArrayList<>();
+        Empleado empleadoOrigen, empleadoDestino;
+        String funcion = "SELECT * FROM Transaccion";
+        Transaccion transacciones;
+        int codEmpleadoOrigen = 0, codEmpleadoDestino = 0;
+        String fecha = "", detalle = "", funcionTransaccion = "", numCuentaOrigen = "", numCuentaDestino = "";        
+        float cantidad = 0;
+        
+        try {
+            statement = conexion.createStatement();
+            ResultSet rs = statement.executeQuery(funcion);
+            while (rs.next()){
+                funcionTransaccion = rs.getString("funcion");
+                codEmpleadoOrigen = Integer.parseInt(rs.getString("codEmpleado"));
+                numCuentaOrigen = rs.getString("numCuentaOrigen");
+                cantidad = Float.parseFloat(rs.getString("cantidad"));
+                fecha = rs.getString("fecha");
+                codEmpleadoDestino = Integer.parseInt(rs.getString("codEmpleadoDestino"));
+                numCuentaDestino = rs.getString("numCuentaDestino");
+                detalle = rs.getString("detalle");
+                empleadoOrigen = new Empleado(null, null, 0, numCuentaOrigen, null, codEmpleadoOrigen);
+                empleadoDestino = new Empleado(null, null, 0, numCuentaDestino, null, codEmpleadoDestino);
+                transacciones = new Transaccion(empleadoOrigen, cantidad, funcionTransaccion, empleadoDestino, detalle, fecha);
+                listaTransacciones.add(transacciones);
+                System.out.println(transacciones.toString());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaTransacciones;
+    }
 }

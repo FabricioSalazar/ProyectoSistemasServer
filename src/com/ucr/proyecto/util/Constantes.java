@@ -6,6 +6,9 @@
 package com.ucr.proyecto.util;
 
 import com.ucr.proyecto.domain.Empleado;
+import com.ucr.proyecto.domain.Transaccion;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Constantes {
 
@@ -24,4 +27,5 @@ public class Constantes {
     public static final String VERIFICACION_DE_DATOS_CONSOLA = "VERIFICAR_DATOS_CONSOLA";
     public static final String WAIT_CLIENT = "EN_ESPERA";
 
+    public static List<Transaccion> listaTransacciones = new ArrayList<>();
 }

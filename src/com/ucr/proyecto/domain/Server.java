@@ -42,6 +42,7 @@ public class Server extends Thread {
         try {
             serverSocket = new ServerSocket(this.PUERTO);
             System.out.println("Iniciado");
+            Constantes.listaTransacciones = conexion.getTransacciones();
             do {
                 socket = serverSocket.accept();
                 entrada = new ObjectInputStream(socket.getInputStream());
