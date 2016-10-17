@@ -6,11 +6,13 @@
 package com.ucr.proyecto.domain;
 
 import com.ucr.proyecto.data.ConexionSQL;
+import com.ucr.proyecto.util.Constantes;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +24,9 @@ public class Server extends Thread {
     private final int PUERTO;
     private Transaccion transaccion;
     private Semaphore funcionarios;
-    
+    private String funcion_Cliente;
     private ConexionSQL conexion;
-    
+
     private ObjectInputStream entrada;
     private ObjectOutputStream salida;
 
@@ -44,26 +46,35 @@ public class Server extends Thread {
                 socket = serverSocket.accept();
                 entrada = new ObjectInputStream(socket.getInputStream());
                 salida = new ObjectOutputStream(socket.getOutputStream());
-                
-                salida.writeObject("Conectado"); //Comunica al cliente que la conexion y los flujos de datos se establecieron correctamente
-                
-                transaccion = (Transaccion) entrada.readObject();
-                atiendeCliente(transaccion);
-                
-                System.out.println(transaccion.getEmpleado());
-                System.out.println(transaccion.getFuncion());
-                System.out.println(transaccion.getCantidad());
-                System.out.println(transaccion.getEmpleadoDestino());
-                
+
+                funcion_Cliente = entrada.readUTF();  // 1] recibe la funcion que el usuario le comunico
+                switch (funcion_Cliente) {
+                    case Constantes.WAIT_CLIENT:
+                        break;
+                    case Constantes.VERIFICACION_DE_DATOS:
+                        transaccion = (Transaccion) entrada.readObject(); // 2] recibe los datos del usuario                      
+                        salida.writeObject(conexion.verificarEmpleado(transaccion.getEmpleado()));
+                        salida.writeObject(conexion.getEmpleadoActual());
+                        salida.writeObject(getEmpleados());
+                        break;
+                }
                 entrada.close();
                 salida.close();
             } while (true);
 
-        } catch (IOException | ClassNotFoundException | InterruptedException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    private ArrayList<Empleado> getEmpleados() {
+        ArrayList<Empleado> aux = new ArrayList();
+        for (int i = 1; i < 21; i++) {
+            aux.add(conexion.obtenerEmpleado(i));
+        }
+        return aux;
+    }
+
     public String atiendeCliente(Transaccion t) throws InterruptedException {
         /*AHORRO AUTOMATICO case "ahorroautomatico"*/
         funcionarios.acquire();
