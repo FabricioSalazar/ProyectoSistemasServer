@@ -6,6 +6,7 @@
 package com.ucr.proyecto.domain;
 
 import com.ucr.proyecto.data.ConexionSQL;
+import com.ucr.proyecto.gui.TablaTransacciones;
 import com.ucr.proyecto.util.Constantes;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -122,6 +123,5 @@ public class Server extends Thread {
     public void agregarTransaccion(Transaccion transaccion){
         System.out.println(transaccion.toString());
         Constantes.listaTransacciones.add(transaccion);
-        
     }
 }
