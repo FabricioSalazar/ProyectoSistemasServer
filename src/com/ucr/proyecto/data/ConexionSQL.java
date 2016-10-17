@@ -15,6 +15,7 @@ public final class ConexionSQL {
 
     private final Connection conexion;
     private Statement statement = null;
+    private Empleado empActual;
 
     public ConexionSQL() {
 
@@ -172,15 +173,14 @@ public final class ConexionSQL {
         return emp;
     }
 
-    public Empleado obtenerEmpleado(String numCuenta) {
-        
+    public Empleado obtenerConCuentaEmpleado(String numCuenta) {
+
         Empleado emp = null;
         String usuario = "", contraseña = "", nombre = "", numCuenta1 = "";
         float saldo = 0;
         int codEmpleado = 0;
-        
-        
-        String funcion2 = "SELECT codEmpleado,numCuenta,saldo FROM CUENTA WHERE numCuenta='" + numCuenta+"'";
+
+        String funcion2 = "SELECT codEmpleado,numCuenta,saldo FROM CUENTA WHERE numCuenta='" + numCuenta + "'";
 
         try {
             statement = conexion.createStatement();
@@ -188,7 +188,7 @@ public final class ConexionSQL {
             ResultSet rs = statement.executeQuery(funcion2);
 
             while (rs.next()) {
-                codEmpleado= rs.getInt(1);
+                codEmpleado = rs.getInt(1);
                 numCuenta1 = rs.getString(2);
                 saldo = rs.getFloat(3);
             }
@@ -197,7 +197,7 @@ public final class ConexionSQL {
             Statement statement2 = null;
             statement2 = conexion.createStatement();
             ResultSet rs1 = statement2.executeQuery(funcion);
-            
+
             while (rs1.next()) {
                 nombre = rs1.getString(1);
                 usuario = rs1.getString(2);
@@ -211,16 +211,16 @@ public final class ConexionSQL {
 
         return emp;
     }
-    
+
     public Empleado obtenerEmpleadoConElUsuario(String usuario) {
-        
+
         Empleado emp = null;
         String usuario1 = "", contraseña = "", nombre = "", numCuenta = "";
         float saldo = 0;
         int codEmpleado = 0;
-        
-        String funcion = "SELECT * FROM EMPLEADOS WHERE usuario='" + usuario+"'";
-        
+
+        String funcion = "SELECT * FROM EMPLEADOS WHERE usuario='" + usuario + "'";
+
         try {
             statement = conexion.createStatement();
 
@@ -233,11 +233,11 @@ public final class ConexionSQL {
                 contraseña = rs.getString(4);
             }
 
-            String funcion2 = "SELECT numCuenta,saldo FROM CUENTA WHERE codEmpleado=" + codEmpleado ;
+            String funcion2 = "SELECT numCuenta,saldo FROM CUENTA WHERE codEmpleado=" + codEmpleado;
             Statement statement2 = null;
             statement2 = conexion.createStatement();
             ResultSet rs1 = statement2.executeQuery(funcion2);
-            
+
             while (rs1.next()) {
                 numCuenta = rs1.getString(1);
                 saldo = rs1.getFloat(2);
@@ -251,37 +251,57 @@ public final class ConexionSQL {
 
         return emp;
     }
-    //Verifica si el usuario y contrasena del empleado que pasa como parametro coinciden
-    public Empleado verificarEmpleado(Empleado datos) {
 
-        Empleado empleado = obtenerEmpleado(datos.getCodEmpleado());
+    public Empleado obtenerEmpleado(String user) {
+        String funcion = "SELECT * FROM EMPLEADOS WHERE usuario='" + user + "'";
+        Empleado emp = null;
+        String usuario = "", contraseña = "", nombre = "", numCuenta = "";
+        int codEmpleado = 0;
+        float saldo = 0;
+        try {
+            statement = conexion.createStatement();
+            ResultSet rs = statement.executeQuery(funcion);
+            while (rs.next()) {
+                codEmpleado = rs.getInt(1);
+                nombre = rs.getString(2);
+                usuario = rs.getString(3);
+                contraseña = rs.getString(4);
+            }
 
-        if (empleado.getUsuario().equalsIgnoreCase(datos.getUsuario()) && empleado.getContrasena().equalsIgnoreCase(datos.getContrasena())) {
-            return empleado;
-        } else {
-            return null;
+            String funcion2 = "SELECT numCuenta,saldo FROM CUENTA WHERE codEmpleado=" + codEmpleado;
+            Statement statement2 = conexion.createStatement();
+            ResultSet rs1 = statement2.executeQuery(funcion2);
+
+            while (rs1.next()) {
+                numCuenta = rs1.getString(1);
+                saldo = rs1.getFloat(2);
+            }
+
+            emp = new Empleado(usuario, contraseña, saldo, numCuenta, nombre, codEmpleado);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return emp;
     }
 
-//    public void insertarEncuesta(Encuesta encuesta) throws SQLException {
-//
-//        statement = conexion.createStatement();
-//
-//        String values = "INSERT INTO ENCUESTA VALUES(";
-//
-//        Iterator<Pregunta> itr = encuesta.preguntas.iterator();
-//        final byte fin = (byte) (encuesta.preguntas.size() - 1);
-//        byte cont = 0;
-//        while (itr.hasNext()) {
-//            if (fin == cont++) {
-//                values += "'" + itr.next().getRespuesta() + "'";
-//            } else {
-//                values += "'" + itr.next().getRespuesta() + "'" + ",";
-//            }
-//        }
-//        values += ")";
-//        System.out.println(values);
-//
-//        statement.executeUpdate(values);
-//    }// insertar encuesta
+    /*Verifica si el usuario y contrasena del empleado que pasa como parametro coinciden
+     @param recibe un empleadocon los datos ingresados porelusuario para iniciar secion 
+    @return retorna si ese cliente existe en la base de datos y autoriza elinicio de sesion
+     */
+    public boolean verificarEmpleado(Empleado datos) {
+        Empleado aux = obtenerEmpleado(datos.getUsuario());
+        empActual = aux;
+        if (aux != null) {
+            return aux.getUsuario().equalsIgnoreCase(datos.getUsuario()) && aux.getContrasena().equals(datos.getContrasena());
+        } else {
+            return false;
+        }
+
+    }
+
+    public Empleado getEmpleadoActual() {
+        return empActual;
+    }
+
 }
