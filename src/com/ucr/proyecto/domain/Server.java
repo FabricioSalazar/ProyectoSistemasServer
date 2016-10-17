@@ -67,14 +67,17 @@ public class Server extends Thread {
                     case Constantes.ENVIAR_TRANSACCION_ACREDITAR://recibe la transaccion y envia el string si la transaccion se pudo realizar
                         transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                      
                         salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
+                        agregarTransaccion(transaccion);
                         break;
                      case Constantes.ENVIAR_TRANSACCION_DEBITAR://recibe la transaccion y envia el string si la transaccion se pudo realizar
                         transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                        
                         salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
+                        agregarTransaccion(transaccion);
                         break;
                      case Constantes.ENVIAR_TRANSACCION_ACREDITAR_OTRA_CUENTA://recibe la transaccion y envia el string si la transaccion se pudo realizar
                         transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                     
                         salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
+                        agregarTransaccion(transaccion);
                         break;
                 }
                 entrada.close();
@@ -114,5 +117,11 @@ public class Server extends Thread {
         }
         funcionarios.release();
         return resultado;
+    }
+    
+    public void agregarTransaccion(Transaccion transaccion){
+        System.out.println(transaccion.toString());
+        Constantes.listaTransacciones.add(transaccion);
+        
     }
 }
