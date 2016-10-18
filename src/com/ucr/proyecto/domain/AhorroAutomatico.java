@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author Machito
  */
 public class AhorroAutomatico extends Thread {
-    
+
     private ConexionSQL conexion;
 
     public AhorroAutomatico(ConexionSQL conexion) {

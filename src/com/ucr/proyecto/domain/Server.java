@@ -37,7 +37,7 @@ public class Server extends Thread {
         this.PUERTO = puerto;
         this.funcionarios = new Semaphore(3);
         conexion = new ConexionSQL();
-        ahorro=new AhorroAutomatico(conexion);
+        ahorro = new AhorroAutomatico(conexion);
     }
 
     @Override
@@ -92,9 +92,7 @@ public class Server extends Thread {
                 salida.close();
             } while (true);
 
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        } catch (IOException | ClassNotFoundException | InterruptedException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
