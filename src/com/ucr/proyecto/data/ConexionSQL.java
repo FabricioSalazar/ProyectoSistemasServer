@@ -87,7 +87,7 @@ public final class ConexionSQL {
     public void ahorroAutomatico(int monto) {
         Empleado empleado = obtenerEmpleado(0);
         Transaccion ahorro = new Transaccion(empleado, monto, "ahorroautomatico", empleado, "Ahorro Automatico");
-
+        Constantes.listaTransacciones.add(ahorro);
         String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
 
         funcion += ahorro.getEmpleado().getCodEmpleado() + ",'" + ahorro.getEmpleado().getNumCuenta() + "','" + ahorro.getFuncion() + "'," + ahorro.getCantidad() + "," + ahorro.getEmpleadoDestino().getCodEmpleado() + ",'" + ahorro.getEmpleadoDestino().getNumCuenta() + "','" + ahorro.getDetalle() + "')";

@@ -50,6 +50,8 @@ public class TablaTransacciones extends JPanel {
                     comp.setBackground(Color.red);
                 } else if (value.equals("acreditar")){
                     comp.setBackground(Color.green);
+                } else if (value.equals("ahorroautomatico")){
+                    comp.setBackground(Color.orange);
                 } else {
                     comp.setBackground(Color.WHITE);
                 }
