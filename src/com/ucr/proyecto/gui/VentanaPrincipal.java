@@ -4,8 +4,6 @@ import com.ucr.proyecto.util.Constantes;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -24,7 +22,6 @@ public class VentanaPrincipal extends JFrame{
     private Timer timer;
     private JLabel color1, color2, color3, color4;
     private JPanel panelColor1, panelColor2, panelColor3, panelColor4, borde;
-    private JCheckBox checkBox;
 
     public VentanaPrincipal() {
         iniciar();
@@ -86,7 +83,6 @@ public class VentanaPrincipal extends JFrame{
         this.desktopPane.add(this.color4).setBounds(800, 170, 200, 20); 
         this.desktopPane.add(this.panelColor4).setLocation(771, 171);
         this.desktopPane.add(this.borde).setLocation(770, 170);
-        this.desktopPane.add(this.checkBox).setBounds(780, 500, 200, 20);
         
         this.desktopPane.add(this.tablaTransacciones);
 
