@@ -27,6 +27,7 @@ public class Server extends Thread {
     private Semaphore funcionarios;
     private String funcion_Cliente;
     private ConexionSQL conexion;
+    private AhorroAutomatico ahorro;
 
     private ObjectInputStream entrada;
     private ObjectOutputStream salida;
@@ -36,6 +37,7 @@ public class Server extends Thread {
         this.PUERTO = puerto;
         this.funcionarios = new Semaphore(3);
         conexion = new ConexionSQL();
+        ahorro=new AhorroAutomatico(conexion);
     }
 
     @Override
@@ -44,6 +46,7 @@ public class Server extends Thread {
             serverSocket = new ServerSocket(this.PUERTO);
             System.out.println("Iniciado");
             Constantes.listaTransacciones = conexion.getTransacciones();
+            ahorro.start();//arranca hilo automatico del ahorro
             do {
                 socket = serverSocket.accept();
                 entrada = new ObjectInputStream(socket.getInputStream());
@@ -112,6 +115,7 @@ public class Server extends Thread {
         switch (funcion) {
             case "debitar"://El cliente saca de su cuenta
                 resultado = conexion.debitar(t);
+                break;
             case "acreditar"://El cliente mete en su cuenta, SUPUESTO SEMANTICO: EN EFECTIVO O CHEQUES
                 resultado = conexion.acreditar(t);
                 break;
