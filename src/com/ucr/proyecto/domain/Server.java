@@ -47,6 +47,7 @@ public class Server extends Thread {
             System.out.println("Iniciado");
             Constantes.listaTransacciones = conexion.getTransacciones();
             ahorro.start();//arranca hilo automatico del ahorro
+            String usuario = "";
             do {
                 socket = serverSocket.accept();
                 entrada = new ObjectInputStream(socket.getInputStream());
@@ -59,7 +60,7 @@ public class Server extends Thread {
                     case Constantes.VERIFICACION_DE_DATOS:
                         transaccion = (Transaccion) entrada.readObject(); // 2] recibe los datos del usuario                      
                         
-                        String usuario = entrada.readObject() + "";
+                        usuario = entrada.readObject() + "";
                         salida.writeObject(conexion.getTransaccionesPorEmpleado(usuario));                        
                         
                         salida.writeObject(conexion.verificarEmpleado(transaccion.getEmpleado()));
@@ -71,21 +72,33 @@ public class Server extends Thread {
                         salida.writeObject(conexion.verificarEmpleado(transaccion.getEmpleado()));
                         salida.writeObject(conexion.getEmpleadoActual());
                         salida.writeObject(getEmpleados());
+                        
+                        usuario = entrada.readObject() + "";
+                        salida.writeObject(conexion.getTransaccionesPorEmpleado(usuario));                        
                         break;
                     case Constantes.ENVIAR_TRANSACCION_ACREDITAR://recibe la transaccion y envia el string si la transaccion se pudo realizar
                         transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                      
                         salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
                         agregarTransaccion(transaccion);
+                        
+                        usuario = entrada.readObject() + "";
+                        salida.writeObject(conexion.getTransaccionesPorEmpleado(usuario));                        
                         break;
                      case Constantes.ENVIAR_TRANSACCION_DEBITAR://recibe la transaccion y envia el string si la transaccion se pudo realizar
                         transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                        
                         salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
                         agregarTransaccion(transaccion);
+                        
+                        usuario = entrada.readObject() + "";
+                        salida.writeObject(conexion.getTransaccionesPorEmpleado(usuario));                        
                         break;
                      case Constantes.ENVIAR_TRANSACCION_ACREDITAR_OTRA_CUENTA://recibe la transaccion y envia el string si la transaccion se pudo realizar
                         transaccion = (Transaccion) entrada.readObject(); //recibe la transaccion del usuario                     
                         salida.writeObject(atiendeCliente(transaccion));//usa el atiendeCliente con la transaccion que recibe y retorna si se pudo o no realizar la transacion
                         agregarTransaccion(transaccion);
+                        
+                        usuario = entrada.readObject() + "";
+                        salida.writeObject(conexion.getTransaccionesPorEmpleado(usuario));                        
                         break;
                 }
                 entrada.close();
