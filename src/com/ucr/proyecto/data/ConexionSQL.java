@@ -8,7 +8,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level; 
 import java.util.logging.Logger;
@@ -18,11 +20,11 @@ public final class ConexionSQL {
     private final Connection conexion;
     private Statement statement = null;
     private Empleado empActual;
+    private Calendar calendario;
+    private SimpleDateFormat format1;
 
     public ConexionSQL() {
-
         this.conexion = getConexion();
-
     }// constructor
 
     // @return retorna un objeto de tipo conecction con  el cual se realiza cualquier funcion sobre la DB
@@ -85,19 +87,24 @@ public final class ConexionSQL {
 
     //Genera el ahorro automatico
     public void ahorroAutomatico(int monto) {
-        Empleado empleado = obtenerEmpleado(0);
-        Transaccion ahorro = new Transaccion(empleado, monto, "ahorroautomatico", empleado, "Ahorro Automatico");
-        Constantes.listaTransacciones.add(ahorro);
-        String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
+        for (int i = 0; i < 21; i++) {
+            this.calendario = Calendar.getInstance();
+            this.calendario.add(Calendar.DATE, 0);
+            format1 = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
+            
+            Empleado empleado = obtenerEmpleado(i);
+            Transaccion ahorro = new Transaccion(empleado, monto, "ahorroautomatico", empleado, "Ahorro Automatico", format1.format(calendario.getTime()));
+            Constantes.listaTransacciones.add(ahorro);
+            String funcion = "INSERT INTO TRANSACCION(CodEmpleado,numCuentaOrigen,funcion,cantidad,codEmpleadoDestino,numCuentaDestino,detalle) VALUES(";
 
-        funcion += ahorro.getEmpleado().getCodEmpleado() + ",'" + ahorro.getEmpleado().getNumCuenta() + "','" + ahorro.getFuncion() + "'," + ahorro.getCantidad() + "," + ahorro.getEmpleadoDestino().getCodEmpleado() + ",'" + ahorro.getEmpleadoDestino().getNumCuenta() + "','" + ahorro.getDetalle() + "')";
+            funcion += ahorro.getEmpleado().getCodEmpleado() + ",'" + ahorro.getEmpleado().getNumCuenta() + "','" + ahorro.getFuncion() + "'," + ahorro.getCantidad() + "," + ahorro.getEmpleadoDestino().getCodEmpleado() + ",'" + ahorro.getEmpleadoDestino().getNumCuenta() + "','" + ahorro.getDetalle() + "')";
 
-        try {
-            statement = conexion.createStatement();
-
-            statement.executeUpdate(funcion);
-        } catch (SQLException ex) {
-            Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                statement = conexion.createStatement();
+                statement.executeUpdate(funcion);
+            } catch (SQLException ex) {
+                Logger.getLogger(ConexionSQL.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
