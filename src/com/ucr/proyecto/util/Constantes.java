@@ -28,7 +28,5 @@ public class Constantes {
     public static final String WAIT_CLIENT = "EN_ESPERA";
 
     public static List<Transaccion> listaTransacciones = new ArrayList<>();
-    public static int MONTO_AHORRO=1000;
-    
-    
+    public static int MONTO_AHORRO=1000;    
 }

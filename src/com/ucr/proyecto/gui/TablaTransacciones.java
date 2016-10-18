@@ -1,6 +1,7 @@
 package com.ucr.proyecto.gui;
 
 import com.ucr.proyecto.domain.Transaccion;
+import com.ucr.proyecto.util.Constantes;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -29,7 +31,7 @@ public class TablaTransacciones extends JPanel {
     }
 
     private void iniciar() {
-        this.setSize(750, 550);
+        this.setSize(770, 550);
         this.setLayout(null);
         modeloTabla = new DefaultTableModel() {
             @Override
@@ -66,8 +68,8 @@ public class TablaTransacciones extends JPanel {
         tabla.setCellSelectionEnabled(true);
 
         JScrollPane scrollPane = new JScrollPane(tabla);
-        panel.add(scrollPane).setBounds(20, 40, 700, 500);
-        this.add(panel).setBounds(0, 0, 750, 550);
+        panel.add(scrollPane).setBounds(20, 40, 720, 500);
+        this.add(panel).setBounds(0, 0, 770, 550);
         llenarTabla();
     }
 
@@ -77,11 +79,12 @@ public class TablaTransacciones extends JPanel {
     }
 
     public void llenarTabla() {   
-        updateUI();
+       updateUI();
         
         if (!listaTransacciones.isEmpty()) {
             data = new String[listaTransacciones.size()][6];
             //{"Fecha", "Función", "Detalle", "Cuenta origen", "Cuenta destino", "Cantidad"}
+
             for (int i = 0; i < listaTransacciones.size(); i++) {
                 data[i][0] = listaTransacciones.get(i).getFecha();
                 data[i][1] = listaTransacciones.get(i).getFuncion();
