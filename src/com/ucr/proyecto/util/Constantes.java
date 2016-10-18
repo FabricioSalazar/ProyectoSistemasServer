@@ -29,4 +29,6 @@ public class Constantes {
 
     public static List<Transaccion> listaTransacciones = new ArrayList<>();
     public static int MONTO_AHORRO=1000;    
+    
+    public static final String ACTUALIZAR_LISTA = "ACTUALIZAR_LISTA";
 }
